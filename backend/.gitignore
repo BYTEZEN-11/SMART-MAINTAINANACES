@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+
+# Build artifacts
+dist/
+build/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment & secrets
+# C-6: real credentials must NEVER be committed. Use `.env.example`
+# as a template and `.env` only on the deploy host (Render env vars,
+# docker --env-file, etc.). The .env in the working tree should be
+# moved to a secrets manager and this file's pattern should be
+# honoured by all contributors.
+.env
+.env.local
+.env.*.local
+.env.production
+
+# Uploads
+uploads/
+!uploads/.gitkeep
+
+# Test / coverage
+coverage/
+.nyc_output/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
