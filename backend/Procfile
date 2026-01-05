@@ -1,0 +1,4 @@
+# Render/Heroku entrypoint. Force NODE_ENV=production so the CORS allowlist
+# doesn't silently widen, the auth middleware doesn't print verbose startup
+# banners, etc. PORT is injected by Render automatically.
+web: NODE_ENV=production npm start
