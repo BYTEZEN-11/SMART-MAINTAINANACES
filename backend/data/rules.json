@@ -1,0 +1,282 @@
+[
+  {
+    "id": "fridge-compressor-001",
+    "deviceType": "fridge",
+    "name": "Compressor failure when powered but no cooling",
+    "description": "Power is on but cooling is not happening → compressor / start-circuit issue.",
+    "condition": { "all": [
+      { "field": "power_on", "op": "eq", "value": true },
+      { "field": "no_cooling", "op": "eq", "value": true }
+    ]},
+    "action": {
+      "severity": "Critical",
+      "confidenceDelta": 10,
+      "issue": "Compressor not engaging despite power",
+      "solution": "Test start relay and overload protector. Replace compressor if start-circuit OK."
+    },
+    "weight": 0.9,
+    "enabled": true,
+    "source": "builtin"
+  },
+  {
+    "id": "fridge-gas-leak-002",
+    "deviceType": "fridge",
+    "name": "Refrigerant gas leak",
+    "description": "Frost build-up + hissing noise + cooling loss → refrigerant leak.",
+    "condition": { "all": [
+      { "field": "no_cooling", "op": "eq", "value": true },
+      { "field": "noise_hissing", "op": "eq", "value": true }
+    ]},
+    "action": {
+      "severity": "High",
+      "confidenceDelta": 8,
+      "issue": "Refrigerant leak suspected",
+      "solution": "Call a licensed technician. Do not attempt to recharge refrigerant yourself."
+    },
+    "weight": 0.85,
+    "enabled": true,
+    "source": "builtin"
+  },
+  {
+    "id": "fridge-coil-dust-003",
+    "deviceType": "fridge",
+    "name": "Condenser coil dust buildup",
+    "description": "High temp + grinding noise from rear → dirty condenser coils.",
+    "condition": { "all": [
+      { "field": "overheating", "op": "eq", "value": true },
+      { "field": "noise_grinding", "op": "eq", "value": true }
+    ]},
+    "action": {
+      "severity": "Medium",
+      "confidenceDelta": 6,
+      "issue": "Condenser coils likely dirty or fan obstructed",
+      "solution": "Vacuum condenser coils at the back/bottom. Clear any debris blocking the fan."
+    },
+    "weight": 0.7,
+    "enabled": true,
+    "source": "builtin"
+  },
+  {
+    "id": "ac-motor-002",
+    "deviceType": "ac",
+    "name": "Fan motor failure (temp high, fan not running)",
+    "description": "Room hot + indoor fan silent → fan motor or capacitor failure.",
+    "condition": { "all": [
+      { "field": "temp_high", "op": "eq", "value": true },
+      { "field": "fan_not_running", "op": "eq", "value": true }
+    ]},
+    "action": {
+      "severity": "High",
+      "confidenceDelta": 8,
+      "issue": "Fan motor or capacitor failure",
+      "solution": "Inspect fan motor windings and run capacitor. Replace if resistance is out of spec."
+    },
+    "weight": 0.85,
+    "enabled": true,
+    "source": "builtin"
+  },
+  {
+    "id": "ac-refrigerant-004",
+    "deviceType": "ac",
+    "name": "AC refrigerant low",
+    "description": "Cooling weak + ice on copper line → low refrigerant.",
+    "condition": { "all": [
+      { "field": "no_cooling", "op": "eq", "value": true },
+      { "field": "temp_high", "op": "eq", "value": true }
+    ]},
+    "action": {
+      "severity": "High",
+      "confidenceDelta": 7,
+      "issue": "Refrigerant undercharge or leak",
+      "solution": "Pressure-test the system, locate leak, repair, then evacuate and recharge."
+    },
+    "weight": 0.8,
+    "enabled": true,
+    "source": "builtin"
+  },
+  {
+    "id": "ac-water-leak-005",
+    "deviceType": "ac",
+    "name": "AC condensate drain blocked",
+    "description": "Water dripping inside + cooling OK → drain line blocked.",
+    "condition": { "all": [
+      { "field": "water_leak", "op": "eq", "value": true },
+      { "field": "no_cooling", "op": "neq", "value": true }
+    ]},
+    "action": {
+      "severity": "Medium",
+      "confidenceDelta": 5,
+      "issue": "Blocked condensate drain line",
+      "solution": "Clear drain pipe with a wet/dry vac or compressed air. Pour a 1:1 vinegar-water mix to dissolve algae."
+    },
+    "weight": 0.7,
+    "enabled": true,
+    "source": "builtin"
+  },
+  {
+    "id": "wm-drum-bearing-006",
+    "deviceType": "washing-machine",
+    "name": "Drum bearing wear",
+    "description": "Loud grinding during spin → worn drum bearings.",
+    "condition": { "all": [
+      { "field": "noise_grinding", "op": "eq", "value": true },
+      { "field": "vibration_high", "op": "eq", "value": true }
+    ]},
+    "action": {
+      "severity": "High",
+      "confidenceDelta": 9,
+      "issue": "Drum bearings worn",
+      "solution": "Replace bearing kit. Inspect drum seal and spider arm while disassembled."
+    },
+    "weight": 0.85,
+    "enabled": true,
+    "source": "builtin"
+  },
+  {
+    "id": "wm-pump-clogged-007",
+    "deviceType": "washing-machine",
+    "name": "Drain pump clogged",
+    "description": "Water won't drain + no spin → drain pump obstruction.",
+    "condition": { "all": [
+      { "field": "water_leak", "op": "eq", "value": true },
+      { "field": "no_cooling", "op": "neq", "value": true }
+    ]},
+    "action": {
+      "severity": "Medium",
+      "confidenceDelta": 6,
+      "issue": "Drain pump filter/pump blocked",
+      "solution": "Open the pump filter (usually front-bottom-right), remove lint/coins. Check impeller for obstructions."
+    },
+    "weight": 0.75,
+    "enabled": true,
+    "source": "builtin"
+  },
+  {
+    "id": "battery-degrade-003",
+    "deviceType": "phone",
+    "name": "Battery degradation while charging",
+    "description": "Charger plugged in but battery remains low → degradation or charging circuit fault.",
+    "condition": { "all": [
+      { "field": "charging_connected", "op": "eq", "value": true },
+      { "field": "battery_low", "op": "eq", "value": true }
+    ]},
+    "action": {
+      "severity": "High",
+      "confidenceDelta": 10,
+      "issue": "Battery degradation or charging circuit fault",
+      "solution": "Run battery health check; replace battery if cycle count > 500 or health < 80%."
+    },
+    "weight": 0.85,
+    "enabled": true,
+    "source": "builtin"
+  },
+  {
+    "id": "phone-overheating-008",
+    "deviceType": "phone",
+    "name": "Phone thermal throttling",
+    "description": "Phone hot + sluggish → thermal throttling or runaway process.",
+    "condition": { "all": [
+      { "field": "overheating", "op": "eq", "value": true }
+    ]},
+    "action": {
+      "severity": "Medium",
+      "confidenceDelta": 5,
+      "issue": "Thermal throttling or runaway background process",
+      "solution": "Close all apps, reboot in safe mode, scan for malware, avoid using while charging. If persistent, factory reset."
+    },
+    "weight": 0.6,
+    "enabled": true,
+    "source": "builtin"
+  },
+  {
+    "id": "laptop-thermal-009",
+    "deviceType": "laptop",
+    "name": "Laptop thermal shutdown risk",
+    "description": "High CPU/GPU temp + fan at max → cooling failure risk.",
+    "condition": { "all": [
+      { "field": "overheating", "op": "eq", "value": true },
+      { "field": "noise_grinding", "op": "eq", "value": true }
+    ]},
+    "action": {
+      "severity": "High",
+      "confidenceDelta": 8,
+      "issue": "Cooling system degraded — thermal shutdown risk",
+      "solution": "Clean vents and fans with compressed air. Re-paste CPU/GPU. Replace thermal pads. Verify fan bearings."
+    },
+    "weight": 0.85,
+    "enabled": true,
+    "source": "builtin"
+  },
+  {
+    "id": "laptop-storage-010",
+    "deviceType": "laptop",
+    "name": "Laptop storage failure imminent",
+    "description": "Disk SMART failing + I/O errors → imminent data loss.",
+    "condition": { "all": [
+      { "field": "storage_failing", "op": "eq", "value": true }
+    ]},
+    "action": {
+      "severity": "Critical",
+      "confidenceDelta": 15,
+      "issue": "Storage device failing — back up immediately",
+      "solution": "Back up critical data now. Clone the drive if still readable. Replace drive and reinstall OS."
+    },
+    "weight": 0.95,
+    "enabled": true,
+    "source": "builtin"
+  },
+  {
+    "id": "laptop-ram-stress-011",
+    "deviceType": "laptop",
+    "name": "Laptop RAM pressure",
+    "description": "RAM usage sustained above 90% → memory pressure.",
+    "condition": { "all": [
+      { "field": "ram_pressure", "op": "eq", "value": true }
+    ]},
+    "action": {
+      "severity": "Medium",
+      "confidenceDelta": 5,
+      "issue": "Memory pressure / swap thrash",
+      "solution": "Close heavy apps, disable startup programs, consider RAM upgrade if maxed out."
+    },
+    "weight": 0.6,
+    "enabled": true,
+    "source": "builtin"
+  },
+  {
+    "id": "gas-leak-generic-012",
+    "deviceType": "other",
+    "name": "Generic gas / smoke detection",
+    "description": "Any device reporting gas presence → safety critical.",
+    "condition": { "all": [
+      { "field": "gas_present", "op": "eq", "value": true }
+    ]},
+    "action": {
+      "severity": "Critical",
+      "confidenceDelta": 20,
+      "issue": "Gas or smoke detected — safety hazard",
+      "solution": "Ventilate the area, shut off gas supply if safe, evacuate, call emergency services."
+    },
+    "weight": 1.0,
+    "enabled": true,
+    "source": "builtin"
+  },
+  {
+    "id": "vibration-generic-013",
+    "deviceType": "other",
+    "name": "Generic vibration anomaly",
+    "description": "Abnormal vibration magnitude → mechanical issue.",
+    "condition": { "all": [
+      { "field": "vibration_high", "op": "eq", "value": true }
+    ]},
+    "action": {
+      "severity": "Medium",
+      "confidenceDelta": 4,
+      "issue": "Mechanical vibration anomaly",
+      "solution": "Inspect rotating components for imbalance, looseness, or wear. Re-torque mounts."
+    },
+    "weight": 0.5,
+    "enabled": true,
+    "source": "builtin"
+  }
+]
