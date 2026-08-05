@@ -1,6 +1,6 @@
-﻿import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
-  View, Text, ScrollView, Image,
+  View, Text, ScrollView,
   TouchableOpacity, FlatList, LayoutAnimation, Platform, UIManager,
   Dimensions, StyleSheet, StatusBar,
 } from "react-native";
@@ -9,10 +9,10 @@ import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useAuth } from "../context/AuthContext";
 import {
   GradientButton, DecorativeBlob, SectionHeader,
-  GlassCard, IconBadge,
+  GlassCard,
 } from "../components/UI";
 import { RemoteOrFallback } from "../src/components";
-import { Colors, Gradients, Spacing, Radius, FontSize } from "../constants/theme";
+import { Colors, Gradients, Spacing, Radius, FontSize, Shadow } from "../constants/theme";
 
 if (Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -31,7 +31,7 @@ const CATEGORIES = [
 
 const FEATURES = [
   {
-    icon: "pulse-outline", title: "AI Diagnostics",
+    icon: "scan-outline", title: "AI Diagnostics",
     desc: "Photo, sound, sensor or text — Gemini finds the issue in seconds.",
     gradient: Gradients.diagnostics, photo: "https://images.unsplash.com/photo-1581090700227-1e37b190418e?w=600&q=70",
   },
@@ -52,10 +52,17 @@ const FEATURES = [
   },
 ];
 
+const STATS = [
+  { value: "10K+", label: "Homes", icon: "home-outline" },
+  { value: "98%",  label: "Accuracy", icon: "checkmark-circle-outline" },
+  { value: "24/7", label: "Monitoring", icon: "pulse-outline" },
+  { value: "40+",  label: "Devices", icon: "cube-outline" },
+];
+
 const TESTIMONIALS = [
   {
     name: "Ananya Sharma", role: "Working mom, Bangalore",
-    avatar: "AS", gradient: Gradients.heroPink,
+    avatar: "AS", gradient: Gradients.heroIndigo,
     quote: "I snapped a photo of my geyser making a weird noise at 11 PM. By morning I had a PDF telling me exactly which part to order. Saved me a service call.",
     stars: 5,
   },
@@ -67,15 +74,15 @@ const TESTIMONIALS = [
   },
   {
     name: "Priya Iyer", role: "Designer, Mumbai",
-    avatar: "PI", gradient: Gradients.heroSunset,
+    avatar: "PI", gradient: Gradients.heroAurora,
     quote: "I track 14 appliances now. The reminders sync across my phone and husband's phone — we never miss a service date anymore.",
     stars: 5,
   },
 ];
 
 const HOW_STEPS = [
-  { num: "1", title: "Snap or describe", desc: "Upload a photo, record a sound or type the issue.",         gradient: Gradients.heroBerry },
-  { num: "2", title: "AI diagnoses",     desc: "Multimodal models + rule engine pinpoint the cause.",     gradient: Gradients.heroSunset },
+  { num: "1", title: "Snap or describe", desc: "Upload a photo, record a sound or type the issue.",         gradient: Gradients.heroIndigo },
+  { num: "2", title: "AI diagnoses",     desc: "Multimodal models + rule engine pinpoint the cause.",     gradient: Gradients.heroSky },
   { num: "3", title: "Fix or schedule",  desc: "Get a step-by-step solution or book a service slot.",     gradient: Gradients.heroAurora },
 ];
 
@@ -106,15 +113,11 @@ export default function LandingScreen({ navigation }) {
     setExpandedFaq((prev) => (prev === i ? null : i));
   };
 
-useEffect(() => {
-    StatusBar.setBarStyle("light-content");
-  }, []);
-
   const renderCategory = ({ item }) => (
     <RemoteOrFallback
       uri={item.photo}
       gradient={item.gradient}
-      overlayOpacity={0.4}
+      overlayOpacity={0.45}
       style={styles.categoryCard}
     >
       <View style={styles.categoryOverlay}>
@@ -153,23 +156,23 @@ useEffect(() => {
 
   return (
     <View style={styles.root}>
-      <StatusBar barStyle="light-content" />
+      <StatusBar barStyle="light-content" backgroundColor={Colors.primaryDark} />
       <ScrollView
         style={{ flex: 1 }}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: Spacing.xxl }}
       >
-        {}
+
         <RemoteOrFallback
           uri="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1200&q=70"
-          gradient={["#EC4899", "#A855F7", "#0F172A"]}
-          overlayOpacity={0.65}
+          gradient={Gradients.heroIndigo}
+          overlayOpacity={0.85}
           style={styles.hero}
         >
-          <DecorativeBlob color="#FFFFFF" opacity={0.18} size={260} style={{ top: -80, right: -80 }} />
-          <DecorativeBlob color="#FFFFFF" opacity={0.12} size={200} style={{ bottom: -60, left: -60 }} />
+          <DecorativeBlob color="#6366F1" opacity={0.55} size={300} style={{ top: -100, right: -100 }} />
+          <DecorativeBlob color="#0EA5E9" opacity={0.35} size={220} style={{ bottom: -60, left: -60 }} />
+          <DecorativeBlob color="#FFFFFF" opacity={0.10} size={180} style={{ top: 120, left: 80 }} />
 
-          {}
           <View style={styles.header}>
             <View style={styles.brandRow}>
               <View style={styles.brandBadge}>
@@ -177,45 +180,72 @@ useEffect(() => {
               </View>
               <Text style={styles.brandText}>AI Home Assistant</Text>
             </View>
-            <TouchableOpacity onPress={() => handleCta("Login")} activeOpacity={0.7}>
+            <TouchableOpacity
+              onPress={() => handleCta("Login")}
+              activeOpacity={0.7}
+              style={styles.signInPill}
+            >
               <Text style={styles.signInLink}>Sign In</Text>
+              <Ionicons name="arrow-forward" size={14} color="#FFFFFF" />
             </TouchableOpacity>
           </View>
 
-          {}
           <View style={styles.heroCopy}>
             <View style={styles.heroPill}>
-              <Ionicons name="sparkles" size={12} color="#FFFFFF" />
-              <Text style={styles.heroPillText}>Powered by Gemini 1.5</Text>
+              <View style={styles.heroPillDot} />
+              <Text style={styles.heroPillText}>POWERED BY GEMINI 1.5</Text>
             </View>
-            <Text style={styles.heroTitle}>Your home's{'\n'}AI mechanic.</Text>
+            <Text style={styles.heroTitle}>
+              Your home's{"\n"}
+              <Text style={styles.heroTitleAccent}>AI mechanic.</Text>
+            </Text>
             <Text style={styles.heroSubtitle}>
               Snap a photo, describe the noise or let our sensors listen.
               Get a root-cause diagnosis and a fix plan in seconds.
             </Text>
-            <View style={{ gap: Spacing.sm, marginTop: Spacing.lg }}>
+
+            <View style={styles.heroCtaRow}>
               <GradientButton
                 label="Get Started Free"
                 icon="rocket-outline"
                 onPress={() => handleCta("Register")}
-                colors={Gradients.heroPink}
+                colors={Gradients.primary}
+                style={styles.heroCtaPrimary}
               />
               <TouchableOpacity
-                style={styles.heroSignInBtn}
+                style={styles.heroCtaSecondary}
                 onPress={() => handleCta("Login")}
                 activeOpacity={0.8}
               >
-                <Text style={styles.heroSignInText}>Already have an account?  Sign In</Text>
+                <Ionicons name="log-in-outline" size={16} color="#FFFFFF" />
+                <Text style={styles.heroCtaSecondaryText}>I have an account</Text>
               </TouchableOpacity>
             </View>
+
+            <View style={styles.heroTrustRow}>
+              <Ionicons name="shield-checkmark" size={14} color="rgba(255,255,255,0.85)" />
+              <Text style={styles.heroTrustText}>
+                No credit card · Free for 5 devices · 256-bit encrypted
+              </Text>
+            </View>
+          </View>
+
+          <View style={styles.statsBar}>
+            {STATS.map((s) => (
+              <View key={s.label} style={styles.statCell}>
+                <Ionicons name={s.icon} size={16} color={Colors.white} />
+                <Text style={styles.statValue}>{s.value}</Text>
+                <Text style={styles.statLabel}>{s.label}</Text>
+              </View>
+            ))}
           </View>
         </RemoteOrFallback>
 
-        {}
+
         <View style={styles.section}>
-          <SectionHeader title="What can we fix?" />
+          <SectionHeader title="Trusted across categories" />
           <Text style={styles.sectionLead}>
-            From the smallest fan to the biggest fridge — we cover everything with power.
+            From the smallest fan to the biggest fridge — we cover everything with precision.
           </Text>
           <FlatList
             data={CATEGORIES}
@@ -231,11 +261,11 @@ useEffect(() => {
           />
         </View>
 
-        {}
+
         <View style={styles.section}>
           <SectionHeader title="Built for the way you live" />
           <Text style={styles.sectionLead}>
-            Diagnostics, predictions and reports — all in one app.
+            Diagnostics, predictions and reports — engineered into one workflow.
           </Text>
           <View style={styles.featuresGrid}>
             {FEATURES.map((f) => (
@@ -243,7 +273,7 @@ useEffect(() => {
                 <RemoteOrFallback
                   uri={f.photo}
                   gradient={f.gradient}
-                  overlayOpacity={0.5}
+                  overlayOpacity={0.55}
                   style={styles.featureBg}
                 >
                   <View style={styles.featureIconCircle}>
@@ -257,9 +287,12 @@ useEffect(() => {
           </View>
         </View>
 
-        {}
-        <View style={styles.section}>
+
+        <View style={[styles.section, styles.howSection]}>
           <SectionHeader title="How it works" />
+          <Text style={styles.sectionLead}>
+            Three steps from problem to resolution.
+          </Text>
           <View style={styles.stepsRow}>
             {HOW_STEPS.map((s, idx) => (
               <View key={s.num} style={styles.step}>
@@ -286,7 +319,7 @@ useEffect(() => {
           </View>
         </View>
 
-        {}
+
         <View style={styles.section}>
           <SectionHeader title="Loved by 10,000+ homes" />
           <FlatList
@@ -306,7 +339,7 @@ useEffect(() => {
           />
         </View>
 
-        {}
+
         <View style={styles.section}>
           <SectionHeader title="Frequently asked" />
           <View style={styles.faqList}>
@@ -324,7 +357,7 @@ useEffect(() => {
                     <Ionicons
                       name={expanded ? "chevron-up" : "chevron-down"}
                       size={18}
-                      color={Colors.gray600}
+                      color={expanded ? Colors.primary : Colors.gray600}
                     />
                   </View>
                   {expanded && (
@@ -336,15 +369,17 @@ useEffect(() => {
           </View>
         </View>
 
-        {}
+
         <RemoteOrFallback
           uri="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1200&q=70"
-          gradient={["#EC4899", "#A855F7"]}
-          overlayOpacity={0.85}
+          gradient={Gradients.heroIndigo}
+          overlayOpacity={0.92}
           style={styles.finalCta}
         >
-          <DecorativeBlob color="#FFFFFF" opacity={0.18} size={200} style={{ top: -40, right: -40 }} />
+          <DecorativeBlob color="#0EA5E9" opacity={0.35} size={220} style={{ top: -60, right: -60 }} />
+          <DecorativeBlob color="#FFFFFF" opacity={0.10} size={160} style={{ bottom: -40, left: -40 }} />
           <View style={styles.finalCtaCopy}>
+            <Text style={styles.finalCtaEyebrow}>START IN 60 SECONDS</Text>
             <Text style={styles.finalCtaTitle}>Ready to give your home a brain?</Text>
             <Text style={styles.finalCtaSubtitle}>
               Join thousands of households that catch problems before they cost a fortune.
@@ -353,13 +388,23 @@ useEffect(() => {
               label="Get Started Free"
               icon="rocket-outline"
               onPress={() => handleCta("Register")}
-              colors={["#FFFFFF", "#FFE4F1"]}
-              style={{ marginTop: Spacing.md }}
+              colors={["#FFFFFF", "#E0E7FF"]}
+              style={styles.finalCtaButton}
             />
+            <View style={styles.finalCtaBadges}>
+              <View style={styles.finalCtaBadge}>
+                <Ionicons name="shield-checkmark" size={14} color={Colors.white} />
+                <Text style={styles.finalCtaBadgeText}>Bank-grade security</Text>
+              </View>
+              <View style={styles.finalCtaBadge}>
+                <Ionicons name="time-outline" size={14} color={Colors.white} />
+                <Text style={styles.finalCtaBadgeText}>Setup in minutes</Text>
+              </View>
+            </View>
           </View>
         </RemoteOrFallback>
 
-        {}
+
         <View style={styles.footer}>
           <View style={styles.footerBrandRow}>
             <View style={styles.footerBrandBadge}>
@@ -367,7 +412,9 @@ useEffect(() => {
             </View>
             <Text style={styles.footerBrand}>AI Home Assistant</Text>
           </View>
-          <Text style={styles.footerTagline}>Smart maintenance, powered by AI.</Text>
+          <Text style={styles.footerTagline}>
+            Smart maintenance, powered by AI.
+          </Text>
 
           <View style={styles.footerColumns}>
             <View style={styles.footerCol}>
@@ -406,8 +453,8 @@ useEffect(() => {
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: Colors.background },
 
-hero: {
-    minHeight: 620, paddingTop: 60, paddingBottom: Spacing.xl,
+  hero: {
+    minHeight: 700, paddingTop: 56, paddingBottom: 0,
     paddingHorizontal: Spacing.lg, justifyContent: "space-between",
   },
   header: {
@@ -416,63 +463,129 @@ hero: {
   },
   brandRow: { flexDirection: "row", alignItems: "center", gap: Spacing.sm },
   brandBadge: {
-    width: 32, height: 32, borderRadius: 10,
-    backgroundColor: "rgba(255,255,255,0.25)",
+    width: 36, height: 36, borderRadius: 11,
+    backgroundColor: "rgba(255,255,255,0.18)",
     justifyContent: "center", alignItems: "center",
-    borderWidth: 1.5, borderColor: "rgba(255,255,255,0.4)",
+    borderWidth: 1.5, borderColor: "rgba(255,255,255,0.3)",
   },
   brandText: {
     color: "#FFFFFF", fontWeight: "800", fontSize: FontSize.md,
     letterSpacing: -0.2,
   },
+  signInPill: {
+    flexDirection: "row", alignItems: "center", gap: 6,
+    paddingVertical: 8, paddingHorizontal: 14,
+    borderRadius: Radius.full,
+    backgroundColor: "rgba(255,255,255,0.15)",
+    borderWidth: 1, borderColor: "rgba(255,255,255,0.3)",
+  },
   signInLink: {
     color: "#FFFFFF", fontWeight: "700", fontSize: FontSize.sm,
-    paddingVertical: 6, paddingHorizontal: Spacing.sm,
+    letterSpacing: 0.2,
   },
+
   heroCopy: { paddingTop: Spacing.xl },
   heroPill: {
     flexDirection: "row", alignItems: "center", alignSelf: "flex-start",
-    gap: 6, backgroundColor: "rgba(255,255,255,0.20)",
-    paddingHorizontal: 10, paddingVertical: 5, borderRadius: Radius.full,
-    borderWidth: 1, borderColor: "rgba(255,255,255,0.4)",
+    gap: 8, backgroundColor: "rgba(255,255,255,0.18)",
+    paddingHorizontal: 12, paddingVertical: 6, borderRadius: Radius.full,
+    borderWidth: 1, borderColor: "rgba(255,255,255,0.3)",
     marginBottom: Spacing.md,
   },
-  heroPillText: { color: "#FFFFFF", fontSize: 11, fontWeight: "700", letterSpacing: 0.4 },
+  heroPillDot: {
+    width: 6, height: 6, borderRadius: 3,
+    backgroundColor: "#22D3EE",
+  },
+  heroPillText: {
+    color: "#FFFFFF", fontSize: 10, fontWeight: "800",
+    letterSpacing: 0.8,
+  },
   heroTitle: {
     color: "#FFFFFF", fontSize: FontSize.display,
-    fontWeight: "800", letterSpacing: -1, lineHeight: 42,
+    fontWeight: "800", letterSpacing: -1.2, lineHeight: 44,
+  },
+  heroTitleAccent: {
+    color: "#A5B4FC", fontSize: FontSize.display,
+    fontWeight: "800", letterSpacing: -1.2,
   },
   heroSubtitle: {
-    color: "rgba(255,255,255,0.92)", fontSize: FontSize.md,
-    lineHeight: 22, marginTop: Spacing.md, fontWeight: "500",
+    color: "rgba(226,232,240,0.92)", fontSize: FontSize.md,
+    lineHeight: 23, marginTop: Spacing.md, fontWeight: "500",
+    maxWidth: 520,
   },
-  heroSignInBtn: {
-    paddingVertical: 12, alignItems: "center",
-  },
-  heroSignInText: { color: "#FFFFFF", fontSize: FontSize.sm, fontWeight: "700" },
 
-section: { marginTop: Spacing.lg },
+  heroCtaRow: {
+    flexDirection: "row", alignItems: "center", gap: Spacing.md,
+    marginTop: Spacing.lg, flexWrap: "wrap",
+  },
+  heroCtaPrimary: { minWidth: 200 },
+  heroCtaSecondary: {
+    flexDirection: "row", alignItems: "center", gap: 6,
+    paddingVertical: 14, paddingHorizontal: 16,
+  },
+  heroCtaSecondaryText: {
+    color: "#FFFFFF", fontSize: FontSize.sm, fontWeight: "700",
+  },
+
+  heroTrustRow: {
+    flexDirection: "row", alignItems: "center", gap: 6,
+    marginTop: Spacing.md,
+  },
+  heroTrustText: {
+    color: "rgba(226,232,240,0.85)", fontSize: 11,
+    fontWeight: "600", letterSpacing: 0.2,
+  },
+
+  statsBar: {
+    flexDirection: "row", marginTop: Spacing.xl,
+    marginHorizontal: -Spacing.lg, paddingHorizontal: Spacing.lg,
+    paddingTop: Spacing.lg, paddingBottom: Spacing.lg,
+    backgroundColor: "rgba(15,23,42,0.35)",
+    borderTopWidth: 1, borderTopColor: "rgba(255,255,255,0.10)",
+    borderBottomWidth: 1, borderBottomColor: "rgba(255,255,255,0.10)",
+  },
+  statCell: {
+    flex: 1, alignItems: "center", gap: 4,
+  },
+  statValue: {
+    color: "#FFFFFF", fontSize: FontSize.xl, fontWeight: "800",
+    letterSpacing: -0.4, marginTop: 2,
+  },
+  statLabel: {
+    color: "rgba(226,232,240,0.75)", fontSize: 10,
+    fontWeight: "700", letterSpacing: 0.6, textTransform: "uppercase",
+  },
+
+
+  section: { marginTop: Spacing.lg },
+  howSection: {
+    backgroundColor: Colors.white,
+    paddingTop: Spacing.lg, paddingBottom: Spacing.md,
+    marginTop: Spacing.lg,
+    borderTopWidth: 1, borderTopColor: Colors.border,
+    borderBottomWidth: 1, borderBottomColor: Colors.border,
+  },
   sectionLead: {
     fontSize: FontSize.sm, color: Colors.textSecondary,
     paddingHorizontal: Spacing.lg, marginBottom: Spacing.md, lineHeight: 20,
   },
 
-categoryCard: { width: 140, height: 170 },
+  categoryCard: { width: 140, height: 170, ...Shadow.md },
   categoryOverlay: {
     flex: 1, padding: Spacing.md, justifyContent: "space-between",
-    borderWidth: 1, borderColor: "rgba(255,255,255,0.3)",
+    borderWidth: 1, borderColor: "rgba(255,255,255,0.25)",
   },
   categoryIconCircle: {
     width: 44, height: 44, borderRadius: 14,
-    backgroundColor: "rgba(255,255,255,0.25)",
+    backgroundColor: "rgba(255,255,255,0.20)",
     justifyContent: "center", alignItems: "center",
-    borderWidth: 1.5, borderColor: "rgba(255,255,255,0.5)",
+    borderWidth: 1.5, borderColor: "rgba(255,255,255,0.4)",
   },
   categoryLabel: {
     color: "#FFFFFF", fontSize: FontSize.md, fontWeight: "800", letterSpacing: -0.2,
   },
 
-featuresGrid: {
+  featuresGrid: {
     flexDirection: "row", flexWrap: "wrap",
     paddingHorizontal: Spacing.lg, gap: Spacing.md, rowGap: Spacing.md,
   },
@@ -480,9 +593,9 @@ featuresGrid: {
   featureBg: { width: "100%", height: 110, justifyContent: "flex-end", padding: Spacing.sm },
   featureIconCircle: {
     width: 36, height: 36, borderRadius: 12,
-    backgroundColor: "rgba(255,255,255,0.30)",
+    backgroundColor: "rgba(255,255,255,0.28)",
     justifyContent: "center", alignItems: "center",
-    borderWidth: 1.5, borderColor: "rgba(255,255,255,0.5)",
+    borderWidth: 1.5, borderColor: "rgba(255,255,255,0.4)",
   },
   featureTitle: {
     fontSize: FontSize.md, fontWeight: "700", color: Colors.text,
@@ -493,7 +606,7 @@ featuresGrid: {
     marginTop: 4, lineHeight: 18,
   },
 
-stepsRow: {
+  stepsRow: {
     flexDirection: "row", alignItems: "flex-start",
     paddingHorizontal: Spacing.lg, gap: Spacing.sm,
   },
@@ -501,6 +614,7 @@ stepsRow: {
   stepCircle: {
     width: 56, height: 56, borderRadius: 28,
     justifyContent: "center", alignItems: "center", marginBottom: Spacing.sm,
+    ...Shadow.md,
   },
   stepNum: { color: "#FFFFFF", fontSize: FontSize.xl, fontWeight: "800" },
   stepTitle: {
@@ -513,10 +627,11 @@ stepsRow: {
   },
   stepArrow: { position: "absolute", top: 18, right: -10 },
 
-testimonialCard: {
+  testimonialCard: {
     backgroundColor: Colors.white, borderRadius: Radius.lg,
     padding: Spacing.lg, gap: Spacing.md,
-    borderWidth: 1.5, borderColor: Colors.border,
+    borderWidth: 1, borderColor: Colors.border,
+    ...Shadow.md,
   },
   starsRow: { flexDirection: "row", gap: 2 },
   testimonialQuote: {
@@ -532,12 +647,15 @@ testimonialCard: {
   testimonialName: { fontSize: FontSize.sm, fontWeight: "700", color: Colors.text },
   testimonialRole: { fontSize: FontSize.xs, color: Colors.textSecondary, marginTop: 2 },
 
-faqList: { paddingHorizontal: Spacing.lg, gap: Spacing.sm },
+  faqList: { paddingHorizontal: Spacing.lg, gap: Spacing.sm },
   faqItem: {
     backgroundColor: Colors.white, borderRadius: Radius.md,
-    padding: Spacing.md, borderWidth: 1.5, borderColor: Colors.border,
+    padding: Spacing.md, borderWidth: 1, borderColor: Colors.border,
   },
-  faqItemExpanded: { borderColor: Colors.primary, backgroundColor: Colors.primaryLight },
+  faqItemExpanded: {
+    borderColor: Colors.primary,
+    backgroundColor: Colors.primaryLight,
+  },
   faqHeader: { flexDirection: "row", justifyContent: "space-between", alignItems: "center" },
   faqQuestion: {
     flex: 1, fontSize: FontSize.md, fontWeight: "700",
@@ -548,23 +666,40 @@ faqList: { paddingHorizontal: Spacing.lg, gap: Spacing.sm },
     lineHeight: 20, marginTop: Spacing.sm,
   },
 
-finalCta: {
-    marginTop: Spacing.xl, minHeight: 280,
+  finalCta: {
+    marginTop: Spacing.xl, minHeight: 320,
     paddingVertical: Spacing.xxl, paddingHorizontal: Spacing.lg,
     justifyContent: "center",
   },
   finalCtaCopy: { alignItems: "center" },
+  finalCtaEyebrow: {
+    color: "#A5B4FC", fontSize: 11, fontWeight: "800",
+    letterSpacing: 1.2, marginBottom: Spacing.sm,
+  },
   finalCtaTitle: {
     color: "#FFFFFF", fontSize: FontSize.xxl, fontWeight: "800",
-    textAlign: "center", letterSpacing: -0.4,
+    textAlign: "center", letterSpacing: -0.5, lineHeight: 32,
   },
   finalCtaSubtitle: {
-    color: "rgba(255,255,255,0.95)", fontSize: FontSize.sm,
+    color: "rgba(226,232,240,0.92)", fontSize: FontSize.sm,
     textAlign: "center", marginTop: Spacing.sm, lineHeight: 20,
+    maxWidth: 460,
+  },
+  finalCtaButton: { marginTop: Spacing.lg, minWidth: 220 },
+  finalCtaBadges: {
+    flexDirection: "row", gap: Spacing.lg,
+    marginTop: Spacing.lg, flexWrap: "wrap", justifyContent: "center",
+  },
+  finalCtaBadge: {
+    flexDirection: "row", alignItems: "center", gap: 6,
+  },
+  finalCtaBadgeText: {
+    color: "rgba(255,255,255,0.92)", fontSize: 11, fontWeight: "600",
+    letterSpacing: 0.2,
   },
 
-footer: {
-    backgroundColor: Colors.white,
+  footer: {
+    backgroundColor: "#0F172A",
     paddingHorizontal: Spacing.lg, paddingTop: Spacing.xl,
     paddingBottom: Spacing.xl, marginTop: Spacing.lg,
   },
@@ -574,9 +709,12 @@ footer: {
     backgroundColor: Colors.primary,
     justifyContent: "center", alignItems: "center",
   },
-  footerBrand: { fontSize: FontSize.md, fontWeight: "800", color: Colors.text, letterSpacing: -0.2 },
+  footerBrand: {
+    fontSize: FontSize.md, fontWeight: "800",
+    color: Colors.white, letterSpacing: -0.2,
+  },
   footerTagline: {
-    fontSize: FontSize.sm, color: Colors.textSecondary, marginTop: 6,
+    fontSize: FontSize.sm, color: Colors.gray400, marginTop: 6,
   },
   footerColumns: {
     flexDirection: "row", justifyContent: "space-between",
@@ -584,18 +722,19 @@ footer: {
   },
   footerCol: { flex: 1 },
   footerColTitle: {
-    fontSize: FontSize.sm, fontWeight: "700", color: Colors.text,
-    marginBottom: Spacing.sm, letterSpacing: -0.1,
+    fontSize: FontSize.sm, fontWeight: "700",
+    color: Colors.white, marginBottom: Spacing.sm, letterSpacing: -0.1,
   },
   footerLink: {
-    fontSize: FontSize.xs, color: Colors.textSecondary,
-    marginBottom: 6,
+    fontSize: FontSize.xs, color: Colors.gray400,
+    marginBottom: 8,
   },
   footerDivider: {
-    height: 1, backgroundColor: Colors.border,
+    height: 1, backgroundColor: "#1E293B",
     marginTop: Spacing.lg, marginBottom: Spacing.md,
   },
   footerCopy: {
-    fontSize: FontSize.xs, color: Colors.gray500, textAlign: "center",
+    fontSize: FontSize.xs, color: Colors.gray500,
+    textAlign: "center",
   },
 });

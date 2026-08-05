@@ -74,7 +74,7 @@ export default function LoginScreen({ navigation }) {
       >
         {}
         <LinearGradient
-          colors={Gradients.heroBerry}
+          colors={Gradients.heroIndigo}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           style={styles.hero}
@@ -146,7 +146,7 @@ export default function LoginScreen({ navigation }) {
             icon="arrow-forward"
             onPress={handleLogin}
             loading={loading}
-            colors={Gradients.heroPink}
+            colors={Gradients.primary}
             style={{ marginTop: Spacing.lg }}
           />
 

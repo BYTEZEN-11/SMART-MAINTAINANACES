@@ -84,7 +84,7 @@ export default function RegisterScreen({ navigation }) {
         keyboardDismissMode="on-drag"
       >
         <LinearGradient
-          colors={Gradients.heroSunset}
+          colors={Gradients.heroIndigo}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           style={styles.hero}
@@ -156,7 +156,7 @@ export default function RegisterScreen({ navigation }) {
             icon="checkmark-circle-outline"
             onPress={handleSignup}
             loading={loading}
-            colors={Gradients.heroSunset}
+            colors={Gradients.primary}
             style={{ marginTop: Spacing.lg }}
           />
 

@@ -279,7 +279,7 @@ export const GradientChip = ({ label, color, light, icon, style }) => (
   </View>
 );
 
-export const GradientText = ({ colors = Gradients.heroPink, style, children }) => (
+export const GradientText = ({ colors = Gradients.primary, style, children }) => (
   <Text style={style}>
     <LinearGradient
       colors={colors}
@@ -333,7 +333,7 @@ export const IconBadge = ({ icon, color, light, size = 44, iconSize = 22, family
   );
 };
 
-export const EmptyState = ({ icon, title, subtitle, actionLabel, onAction, gradient = Gradients.heroPink }) => (
+export const EmptyState = ({ icon, title, subtitle, actionLabel, onAction, gradient = Gradients.primary }) => (
   <View style={{
     alignItems: "center",
     padding: Spacing.xxl,

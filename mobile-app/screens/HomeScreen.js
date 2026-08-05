@@ -151,7 +151,7 @@ if (token) fetchData();
 
       {}
       <GradientHero
-        colors={Gradients.heroBerry}
+        colors={Gradients.heroIndigo}
         icon="home-heart"
         iconFamily="MaterialCommunityIcons"
         title={`Hi, ${userName} 👋`}
@@ -199,7 +199,7 @@ if (token) fetchData();
         {needsSync && (
           <TouchableOpacity activeOpacity={0.85} onPress={handleSyncAccount}>
             <LinearGradient
-              colors={Gradients.heroSunset}
+              colors={Gradients.heroSky}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
               style={[styles.banner, { marginTop: Spacing.md }]}
@@ -246,7 +246,7 @@ if (token) fetchData();
             subtitle="Add your first appliance to get personalised diagnostics and reminders"
             actionLabel="Add Appliance"
             onAction={() => navigation.navigate("Add Appliance")}
-            gradient={Gradients.heroPink}
+            gradient={Gradients.heroIndigo}
           />
         ) : (
           <FlatList
